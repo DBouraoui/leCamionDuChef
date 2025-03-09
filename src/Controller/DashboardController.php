@@ -2,11 +2,19 @@
 
 namespace App\Controller;
 
+use App\Entity\Dishes;
 use App\Entity\Pictures;
+use App\Form\DishesType;
+use App\Repository\DishesRepository;
 use App\Repository\PicturesRepository;
+use Doctrine\DBAL\Types\TextType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -152,6 +160,91 @@ class DashboardController extends AbstractController
                 'success' => false,
                 'message' => $e->getMessage()
             ], Response::HTTP_BAD_REQUEST);
+        }
+    }
+
+    #[Route('/dashboard/carte', name: 'app_dashboard_carte', methods: ['GET', 'POST'])]
+    public function carte(Request $request, EntityManagerInterface $entityManager): Response
+    {
+
+        $dish = new Dishes();
+
+        // Utilisation de la classe de formulaire dédiée
+        $form = $this->createForm(DishesType::class, $dish);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Récupération du fichier image
+            $imageFile = $form->get('imageFile')->getData();
+
+            // Traitement du fichier image si présent
+            if ($imageFile) {
+                // Génération d'un nom de fichier unique
+                $newFilename = uniqid().'.'.$imageFile->guessExtension();
+
+                // Déplacement du fichier vers le répertoire configuré
+                try {
+                    $imageFile->move(
+                        $this->getParameter('kernel.project_dir').'/public/uploads/dishes',
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // Gestion de l'erreur si le déplacement échoue
+                    $this->addFlash('error', 'Une erreur est survenue lors du téléchargement de l\'image.');
+                }
+
+                // Stockage du nom du fichier dans l'entité
+                $dish->setPictureUrl($newFilename);
+
+                $dish->setCreatedAt(new \DateTimeImmutable('now'));
+            }
+
+            // Sauvegarde en base de données
+            $entityManager->persist($dish);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Le plat a été ajouté à la carte avec succès !');
+
+            // Redirection pour éviter la soumission multiple du formulaire
+            return $this->redirectToRoute('app_dashboard_carte');
+        }
+
+        // Récupération de tous les plats existants pour les afficher
+        $dishes = $entityManager->getRepository(Dishes::class)->findAll();
+
+        return $this->render('dashboard/cartes.html.twig', [
+            'form' => $form->createView(),
+            'dishes' => $dishes
+        ]);
+    }
+
+    #[Route('/dashboard/carte/delete/{id}', name: 'app_dashboard_carte_delete', methods: ['DELETE'])]
+    public function DeleteDishes(int $id,EntityManagerInterface $entityManager, DishesRepository $dishesRepository): Response
+    {
+        try {
+           $dishes = $dishesRepository->find($id);
+
+           if (!$dishes) {
+                $this->addFlash("error","Le menu n'a pas pue être supprimer");
+           }
+
+          $file = $this->getParameter('kernel.project_dir') . '/public/uploads/dishes/' . $dishes->getPictureUrl();
+
+            if (file_exists($file)) {
+                if (!unlink($file)) {
+                    throw new \Exception('Impossible de supprimer le fichier: ' . $file);
+                }
+            }
+
+            $entityManager->remove($dishes);
+            $entityManager->flush();
+
+            $this->addFlash("success","Le menu a été spprimer avec succes");
+
+            return new JsonResponse(['success' => true], Response::HTTP_OK);
+        } catch (\Exception)
+        {
+            return new JsonResponse(['success' => false], Response::HTTP_NOT_FOUND);
         }
     }
 }

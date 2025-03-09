@@ -1,0 +1,171 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Carte du foodtruck{% endblock %}
+
+{% block body %}
+    <section id="carte" class="relative py-16 bg-gradient-to-br from-lime-50 to-white">
+        <div class="container mx-auto px-4">
+            <!-- En-tête -->
+            <div class="text-center mb-10">
+                <h1 class="text-4xl font-bold text-lime-800 mb-2">La Carte de Notre Food Truck</h1>
+                <p class="text-gray-600 text-xl">Gérez vos délicieuses créations culinaires</p>
+            </div>
+
+            <div class="flex flex-col lg:flex-row gap-6">
+                <!-- Formulaire d'ajout -->
+                <div class="w-full lg:w-1/3">
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                        <div class="bg-lime-500 text-white p-4">
+                            <h3 class="text-xl font-bold flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                </svg>
+                                Ajouter un plat
+                            </h3>
+                        </div>
+                        <div class="p-6">
+                            {% for label, messages in app.flashes %}
+                                {% for message in messages %}
+                                    <div class="mb-4 p-4 rounded-lg {% if label == 'success' %}bg-green-100 text-green-700{% elseif label == 'error' %}bg-red-100 text-red-700{% else %}bg-blue-100 text-blue-700{% endif %}">
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
+                            {% endfor %}
+
+                            {{ form_start(form) }}
+                            <div class="mb-4">
+                                {{ form_label(form.title, 'Nom du plat', {'label_attr': {'class': 'block text-gray-700 text-sm font-bold mb-2'}}) }}
+                                {{ form_widget(form.title, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-lime-500 focus:border-lime-500', 'placeholder': 'Ex: Burger Gourmet'}}) }}
+                                {{ form_errors(form.title, {'attr': {'class': 'text-red-500 text-xs italic mt-1'}}) }}
+                            </div>
+
+                            <div class="mb-4">
+                                {{ form_label(form.description, 'Description', {'label_attr': {'class': 'block text-gray-700 text-sm font-bold mb-2'}}) }}
+                                {{ form_widget(form.description, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-lime-500 focus:border-lime-500', 'rows': '4', 'placeholder': 'Détaillez les ingrédients et la préparation...'}}) }}
+                                {{ form_errors(form.description, {'attr': {'class': 'text-red-500 text-xs italic mt-1'}}) }}
+                            </div>
+
+                            <div class="mb-4">
+                                {{ form_label(form.price, 'Prix', {'label_attr': {'class': 'block text-gray-700 text-sm font-bold mb-2'}}) }}
+                                {{ form_widget(form.price, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-lime-500 focus:border-lime-500', 'placeholder': '0.00'}}) }}
+                                {{ form_errors(form.price, {'attr': {'class': 'text-red-500 text-xs italic mt-1'}}) }}
+                            </div>
+
+                            <div class="mb-6">
+                                {{ form_label(form.imageFile, 'Photo du plat', {'label_attr': {'class': 'block text-gray-700 text-sm font-bold mb-2'}}) }}
+                                {{ form_widget(form.imageFile, {'attr': {'class': 'block w-full text-gray-700 border border-gray-300 rounded py-2 px-3 focus:outline-none focus:ring-2 focus:ring-lime-500 focus:border-lime-500', 'accept': 'image/*'}}) }}
+                                <p class="text-gray-500 text-xs mt-1">Formats acceptés: JPG, PNG, GIF, WEBP (max: 5MB)</p>
+                                {{ form_errors(form.imageFile, {'attr': {'class': 'text-red-500 text-xs italic mt-1'}}) }}
+                            </div>
+
+                            <div>
+                                {{ form_widget(form.save, {'attr': {'class': 'w-full bg-lime-500 hover:bg-lime-600 text-white font-bold py-3 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 ease-in-out'}}) }}
+                            </div>
+                            {{ form_end(form) }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Liste des plats -->
+                <div class="w-full lg:w-2/3">
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                        <div class="bg-lime-500 text-white p-4 flex justify-between items-center">
+                            <h3 class="text-xl font-bold flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                </svg>
+                                Plats disponibles
+                            </h3>
+                            <span class="bg-white text-lime-700 px-2 py-1 rounded-full text-sm font-semibold">{{ dishes|length }} plat(s)</span>
+                        </div>
+                        <div class="p-6">
+                            {% if dishes|length > 0 %}
+                                <div class="overflow-x-auto">
+                                    <table class="min-w-full divide-y divide-gray-200">
+                                        <thead>
+                                        <tr>
+                                            <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Image</th>
+                                            <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nom</th>
+                                            <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                                            <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Prix</th>
+                                            <th class="px-6 py-3 bg-gray-50 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody class="bg-white divide-y divide-gray-200">
+                                        {% for dish in dishes %}
+                                            <tr class="hover:bg-gray-50" data-id="{{ dish.id }}">
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <img src="{{ asset('uploads/dishes/' ~ dish.pictureUrl) }}"
+                                                         alt="{{ dish.title }}" class="h-14 w-14 object-cover rounded-md border-2 border-gray-200">
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <div class="text-sm font-medium text-gray-900">{{ dish.title }}</div>
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                    <div class="text-sm text-gray-500">{{ dish.description|length > 50 ? dish.description|slice(0, 50) ~ '...' : dish.description }}</div>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <div class="text-sm font-bold text-lime-600">{{ dish.price|number_format(2, ',', ' ') }} €</div>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-center">
+                                                    <a href="" class="inline-flex items-center px-3 py-1 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 mr-2">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                                        </svg>
+                                                        Modifier
+                                                    </a>
+                                                    <a href=""
+                                                       class="inline-flex items-center px-3 py-1 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                                                       onclick="handleDelete(this)" data-id="{{ dish.id }}">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                        </svg>
+                                                        Supprimer
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            {% else %}
+                                <div class="bg-blue-50 border-l-4 border-blue-500 text-blue-700 p-4 flex items-center" role="alert">
+                                    <svg class="h-5 w-5 text-blue-500 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    <div>
+                                        Aucun plat n'est disponible sur la carte pour le moment. Utilisez le formulaire pour ajouter votre premier plat !
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script defer>
+        function handleDelete(dishesId)
+        {
+            fetch(`/dashboard/carte/delete/${dishesId.dataset.id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+                .then((request) =>{
+                    if  (request.status === 200) {
+                        document.querySelector(`[data-id="${dishesId.dataset.id}"]`).remove();
+                    }
+                })
+                .catch(err =>{
+                    if (err.status === 500) {
+                        console.log("Erreur de suppression")
+                    }
+                })
+        }
+    </script>
+
+{% endblock %}

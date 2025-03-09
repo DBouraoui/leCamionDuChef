@@ -1,14 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello DashboardController!{% endblock %}
+{% block title %}Le dashboard du chef !{% endblock %}
 
 {% block body %}
 <section id="contact" class="relative py-16 sm:py-24 bg-gradient-to-br from-amber-50 to-white">
     <div class="min-h-screen bg-gray-100">
         <!-- En-tête -->
         <header class="bg-white shadow">
-            <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 flex flex-row gap-4 items-center">
                 <h1 class="text-3xl font-bold text-gray-900">Tableau de bord</h1>
+                <a class="text-lime-600" href="{{ path('app_dashboard_carte') }}">Carte du foodtruck</a>
             </div>
         </header>
 
@@ -44,7 +45,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <!-- Formulaire d'upload d'image -->
                 <div class="bg-white shadow-md rounded-lg p-6 mb-6">
-                    <h3 class="text-lg font-medium text-gray-900 mb-4">Ajouter une image</h3>
+                    <h3 class="text-lg font-medium text-gray-900 mb-4">Ajouter une image pour le carousel</h3>
 
                     {{ form_start(form, {'attr': {'class': 'space-y-4', 'enctype': 'multipart/form-data'}}) }}
                     <div>
