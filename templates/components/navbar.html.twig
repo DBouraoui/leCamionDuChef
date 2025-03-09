@@ -1,0 +1,75 @@
+{# navbar.html.twig #}
+
+<nav class="shadow-md fixed w-full z-50 bg-[rgb(242,245,247)]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+            <!-- Logo et titre -->
+            <div class="flex items-center">
+                <a href="{{ path('app_home') }}" class="flex-shrink-0 flex items-center">
+                    <img height="60px" width="60px" src="{{ asset('pictures/Logo.svg') }}" />
+                </a>
+            </div>
+
+            <!-- Menu desktop -->
+            <div class="hidden md:flex items-center">
+                <div class="ml-10 flex items-baseline space-x-4">
+                    <a href="{{ path('app_contact') }}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50 transition">Nous contacter</a>
+                    <a href="{{ path('app_home') }}#notre-carte" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50 transition">Notre carte</a>
+                    <a href="{{ path('app_home') }}#notre-histoire" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50 transition">Notre histoire</a>
+                </div>
+            </div>
+
+            <!-- Bouton hamburger pour mobile -->
+            <div class="flex md:hidden items-center">
+                <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-indigo-600 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+                    <span class="sr-only">Ouvrir le menu principal</span>
+                    <!-- Icône menu (3 barres) -->
+                    <svg id="icon-menu" class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                    <!-- Icône X (fermer) -->
+                    <svg id="icon-close" class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Menu mobile -->
+    <div id="mobile-menu" class="hidden md:hidden">
+        <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white">
+            <a href="{{ path('app_contact') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50 transition">Nous contacter</a>
+            <a href="{{ path('app_home')}}#notre-carte" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50 transition">Notre carte</a>
+            <a href="{{ path('app_home') }}#notre-histoire" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50 transition">Notre histoire</a>
+        </div>
+    </div>
+</nav>
+
+<!-- JavaScript pour le menu mobile -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const iconMenu = document.getElementById('icon-menu');
+        const iconClose = document.getElementById('icon-close');
+
+        mobileMenuButton.addEventListener('click', function() {
+            // Toggle menu visibility
+            mobileMenu.classList.toggle('hidden');
+
+            // Toggle icons
+            iconMenu.classList.toggle('hidden');
+            iconClose.classList.toggle('hidden');
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!mobileMenuButton.contains(event.target) && !mobileMenu.contains(event.target) && !mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.add('hidden');
+                iconMenu.classList.remove('hidden');
+                iconClose.classList.add('hidden');
+            }
+        });
+    });
+</script>

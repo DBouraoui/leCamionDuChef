@@ -1,0 +1,26 @@
+/* ÉQUIPE */
+Chef & Propriétaire: Pierre Moreau
+Site: contact@lecamionchef.fr
+Twitter: @lecamionchef
+Location: Aix-en-Provence, France
+
+Développeur web: Votre Nom
+Site: votre.email@exemple.com
+Twitter: @votretwitter
+Location: Votre ville, France
+
+Designer: Votre Nom / Nom de l'agence
+Site: designer.email@exemple.com
+Location: Votre ville, France
+
+/* REMERCIEMENTS */
+Nom: Tous nos producteurs locaux
+Nom: Nos clients fidèles qui nous suivent depuis le début
+Nom: La communauté Symfony
+
+/* SITE */
+Dernière mise à jour: 2025/03/07
+Langues: Français
+Doctype: HTML5
+IDE: VS Code, PhpStorm
+Technologie: Symfony, Twig, Tailwind CSS, JavaScript

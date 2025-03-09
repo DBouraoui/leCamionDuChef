@@ -1,0 +1,128 @@
+{# histoire-section.html.twig #}
+
+<section id="notre-histoire" class="py-20 relative overflow-hidden">
+    <!-- Fond texturé évoquant un mur provençal traditionnel -->
+    <div class="absolute inset-0 z-0">
+        <div class="absolute inset-0 bg-amber-50 opacity-90"></div>
+        <div class="absolute inset-0 bg-repeat opacity-10" style="background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMzAgMEMxMy40IDAgMCAxMy40IDAgMzBzMTMuNCAzMCAzMCAzMCA0NS00IDYwLTEwYzAtMTYuNi0xMy40LTMwLTMwLTMwem0wIDQ4Yy05LjkgMC0xOC04LjEtMTgtMThzOC4xLTE4IDE4LTE4IDE4IDguMSAxOCAxOC04LjEgMTgtMTggMTh6IiBmaWxsPSIjQTg3NTM0IiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIG9wYWNpdHk9Ii4yIi8+PC9zdmc+')"></div>
+    </div>
+
+    <!-- Éléments décoratifs -->
+    <div class="absolute left-0 top-0 h-32 w-32 bg-amber-600/10 rounded-br-full"></div>
+    <div class="absolute right-0 bottom-0 h-32 w-32 bg-amber-600/10 rounded-tl-full"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="max-w-4xl mx-auto">
+            <!-- En-tête de section avec style traditionnel -->
+            <div class="text-center mb-16">
+                <h2 class="inline-block text-base font-semibold tracking-wide text-amber-700 uppercase border-b-2 border-amber-700 pb-1">Notre Histoire</h2>
+                <p class="mt-3 text-4xl font-serif font-bold text-gray-900 sm:text-5xl sm:tracking-tight">
+                    Une Passion Familiale
+                </p>
+
+                <!-- Séparateur décoratif traditionnel -->
+                <div class="flex justify-center items-center mt-6 space-x-3">
+                    <div class="h-px w-16 bg-amber-700"></div>
+                    <svg class="h-5 w-5 text-amber-700" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 3.5a1.5 1.5 0 013 0V4a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-.5a1.5 1.5 0 000 3h.5a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-.5a1.5 1.5 0 00-3 0v.5a1 1 0 01-1 1H6a1 1 0 01-1-1v-3a1 1 0 00-1-1h-.5a1.5 1.5 0 010-3H4a1 1 0 001-1V6a1 1 0 011-1h3a1 1 0 001-1v-.5z" />
+                    </svg>
+                    <div class="h-px w-16 bg-amber-700"></div>
+                </div>
+            </div>
+
+            <!-- Conteneur principal avec design papier ancien -->
+            <div class="bg-white border border-amber-200 rounded-lg shadow-md overflow-hidden">
+                <div class="p-8 md:p-12 relative">
+                    <!-- Épingle décorative -->
+                    <div class="absolute -top-1 left-1/2 transform -translate-x-1/2 w-8 h-8">
+                        <div class="absolute top-0 left-0 w-8 h-8 bg-amber-700 rounded-full shadow-md transform -translate-y-1/2"></div>
+                        <div class="absolute top-0 left-0 w-4 h-4 bg-amber-500 rounded-full transform -translate-y-1/2 translate-x-1/4 translate-y-1/4"></div>
+                    </div>
+
+                    <!-- Photo principale et citation -->
+                    <div class="flex flex-col md:flex-row gap-8 items-center mb-12">
+                        <div class="md:w-1/3 relative">
+                            <div class="bg-white p-3 rotate-1 shadow-md">
+                                <img
+                                        src="{{ asset('https://images.unsplash.com/photo-1594498653385-d5172c532c00?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80') | default('https://images.unsplash.com/photo-1594498653385-d5172c532c00?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80') }}"
+                                        alt="Fondateur du foodtruck"
+                                        class="w-full h-auto -rotate-2"
+                                >
+                                <div class="text-center text-sm italic text-gray-600 mt-2">Pierre, fondateur - 2018</div>
+                            </div>
+                            <!-- Tâche décorative -->
+                            <div class="absolute -bottom-2 -right-2 w-12 h-12 bg-yellow-200 rounded-full opacity-40 -z-10"></div>
+                        </div>
+                        <div class="md:w-2/3">
+                            <blockquote class="text-xl italic font-serif text-gray-700 relative pl-6 border-l-4 border-amber-500">
+                                <p>"J'ai grandi entouré des saveurs et des parfums de la Provence. Ma grand-mère m'a transmis l'amour des produits frais et des recettes authentiques. Ce foodtruck est la réalisation d'un rêve : partager ces saveurs avec vous, où que vous soyez."</p>
+                                <footer class="mt-4 text-base font-normal not-italic text-gray-600">— Pierre Moreau, Fondateur</footer>
+                            </blockquote>
+                        </div>
+                    </div>
+
+                    <!-- Histoire avec timeline traditionnelle -->
+                    <div class="space-y-12">
+                        <!-- 2018 - Début de l'aventure -->
+                        <div class="relative pl-10 border-l-2 border-amber-500">
+                            <div class="absolute left-0 top-0 w-6 h-6 rounded-full bg-white border-4 border-amber-500 transform -translate-x-1/2"></div>
+                            <div class="font-serif font-bold text-2xl text-amber-700 mb-2">2018 - Les débuts</div>
+                            <p class="text-gray-700">
+                                Après plus de 10 ans passés dans la restauration traditionnelle, j'ai décidé de me lancer dans l'aventure du foodtruck. Avec un vieux Citroën HY restauré et les recettes familiales en poche, "Saveurs de Provence" est né sur les marchés de la région.
+                            </p>
+                            <div class="mt-4 grid grid-cols-2 gap-3">
+                                <img
+                                        src="{{ asset('https://images.unsplash.com/photo-1565123409695-7b5ef63a2efb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80') | default('https://images.unsplash.com/photo-1565123409695-7b5ef63a2efb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80') }}"
+                                        alt="Notre premier camion"
+                                        class="rounded-md shadow-sm"
+                                >
+                                <img
+                                        src="{{ asset('https://images.unsplash.com/photo-1533900298318-6b8da08a523e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80') | default('https://images.unsplash.com/photo-1533900298318-6b8da08a523e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80') }}"
+                                        alt="Notre premier marché"
+                                        class="rounded-md shadow-sm"
+                                >
+                            </div>
+                        </div>
+
+                        <!-- 2020 - Développement -->
+                        <div class="relative pl-10 border-l-2 border-amber-500">
+                            <div class="absolute left-0 top-0 w-6 h-6 rounded-full bg-white border-4 border-amber-500 transform -translate-x-1/2"></div>
+                            <div class="font-serif font-bold text-2xl text-amber-700 mb-2">2020 - L'expansion</div>
+                            <p class="text-gray-700">
+                                Grâce à votre soutien, nous avons pu agrandir notre équipe et améliorer notre camion. Nous avons développé notre carte en collaborant avec des producteurs locaux passionnés et engagés dans une agriculture responsable.
+                            </p>
+                        </div>
+
+                        <!-- Aujourd'hui -->
+                        <div class="relative pl-10">
+                            <div class="absolute left-0 top-0 w-6 h-6 rounded-full bg-white border-4 border-amber-500 transform -translate-x-1/2"></div>
+                            <div class="font-serif font-bold text-2xl text-amber-700 mb-2">Aujourd'hui</div>
+                            <p class="text-gray-700">
+                                Notre foodtruck est devenu un incontournable des événements locaux. Notre engagement reste le même : vous proposer le meilleur de la cuisine provençale, préparée avec des produits frais et locaux, dans le respect des traditions culinaires de notre région.
+                            </p>
+                            <div class="mt-8 text-center">
+                                <p class="italic text-lg text-gray-600">
+                                    "La cuisine, c'est l'histoire d'une région, de son terroir et de ses habitants."
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Petit élément décoratif - brins de lavande -->
+            <div class="flex justify-center mt-10">
+                <svg width="120" height="30" viewBox="0 0 120 30" xmlns="http://www.w3.org/2000/svg" class="text-purple-600 opacity-30">
+                    <g fill="currentColor">
+                        <path d="M10,15 C15,5 20,10 20,15 C20,20 15,25 10,15 Z" />
+                        <path d="M30,10 C35,0 40,5 40,10 C40,15 35,20 30,10 Z" />
+                        <path d="M50,15 C55,5 60,10 60,15 C60,20 55,25 50,15 Z" />
+                        <path d="M70,10 C75,0 80,5 80,10 C80,15 75,20 70,10 Z" />
+                        <path d="M90,15 C95,5 100,10 100,15 C100,20 95,25 90,15 Z" />
+                        <path d="M110,10 C115,0 120,5 120,10 C120,15 115,20 110,10 Z" />
+                    </g>
+                </svg>
+            </div>
+        </div>
+    </div>
+</section>
