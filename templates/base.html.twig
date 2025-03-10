@@ -1,9 +1,67 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Le camion du chef{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}Le camion du chef{% endblock %} | Food truck gastronomique à Paris</title>
+    <meta name="description" content="{% block meta_description %}Food truck proposant une cuisine gastronomique sur Chateaurenard et sa région. Découvrez nos emplacements, notre menu et réservez pour vos événements.{% endblock %}">
 
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ app.request.schemeAndHttpHost ~ app.request.requestUri }}">
+    <meta property="og:title" content="{% block og_title %}{{ block('title') }} | Food truck gastronomique à Chateaurenard{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}{{ block('meta_description') }}{% endblock %}">
+    <meta property="og:image" content="{% block og_image %}{{ absolute_url(asset('pictures/Logo.svg')) }}{% endblock %}">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="{{ app.request.schemeAndHttpHost ~ app.request.requestUri }}">
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('pictures/Logo.svg') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('pictures/Logo.svg') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('pictures/Logo.svg') }}">
+
+    <!-- Robots -->
+    {% block robots %}
+        <meta name="robots" content="index, follow">
+    {% endblock %}
+
+    <!-- Structured Data / JSON-LD -->
+    {% block structured_data %}
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "FoodEstablishment",
+                "name": "Le camion du chef",
+                "image": "{{ absolute_url(asset('pictures/Logo.svg')) }}",
+        "url": "{{ app.request.schemeAndHttpHost }}",
+        "telephone": "+33623911923",
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Chateaurenard",
+            "addressRegion": "Bouches-du-rhônes",
+            "addressCountry": "FR"
+        },
+        "priceRange": "€€",
+        "servesCuisine": "Cuisine de rue gastronomique",
+        "openingHoursSpecification": [
+            {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+                "opens": "11:30",
+                "closes": "14:30"
+            },
+            {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+                "opens": "18:30",
+                "closes": "22:30"
+            }
+        ]
+    }
+        </script>
+    {% endblock %}
 
     {% block stylesheets %}
         {{ encore_entry_link_tags('app') }}
@@ -13,9 +71,14 @@
         {{ encore_entry_script_tags('app') }}
     {% endblock %}
 </head>
-<body>
+<body class="{% block body_class %}{% endblock %}">
+<a href="#main-content" class="sr-only focus:not-sr-only">Aller au contenu principal</a>
 {% include 'components/navbar.html.twig' %}
-{% block body %}{% endblock %}
+
+<main id="main-content">
+    {% block body %}{% endblock %}
+</main>
+
 {% include 'components/footer.html.twig' %}
 </body>
 </html>
