@@ -247,4 +247,70 @@ class DashboardController extends AbstractController
             return new JsonResponse(['success' => false], Response::HTTP_NOT_FOUND);
         }
     }
+
+    #[Route('/dashboard/carte/get/{id}', name: 'app_dashboard_get_dish', methods: ['GET'])]
+    public function getDish(Dishes $dish): JsonResponse
+    {
+        return new JsonResponse([
+            'id' => $dish->getId(),
+            'title' => $dish->getTitle(),
+            'description' => $dish->getDescription(),
+            'price' => $dish->getPrice(),
+            'pictureUrl' => $dish->getPictureUrl()
+        ]);
+    }
+
+    #[Route('/dashboard/carte/update/{id}', name: 'app_dashboard_update_dish', methods: ['POST'])]
+    public function updateDish(Request $request, Dishes $dish, EntityManagerInterface $entityManager): JsonResponse
+    {
+        // Récupération des données du formulaire
+        $title = $request->request->get('title');
+        $description = $request->request->get('description');
+        $price = $request->request->get('price');
+
+        // Mise à jour des données du plat
+        $dish->setTitle($title);
+        $dish->setDescription($description);
+        $dish->setPrice($price);
+
+        $imageFile = $request->files->get('imageFile');
+
+        if ($imageFile) {
+            // Suppression de l'ancienne image
+            if ($dish->getPictureUrl()) {
+                $oldImagePath = $this->getParameter('kernel.project_dir') . '/public/uploads/dishes/' . $dish->getPictureUrl();
+                if (file_exists($oldImagePath) && is_file($oldImagePath)) {
+                    unlink($oldImagePath);
+                }
+            }
+
+            // Enregistrement de la nouvelle image
+            $newFilename = uniqid().'.'.$imageFile->guessExtension();
+
+            try {
+                $imageFile->move(
+                    $this->getParameter('kernel.project_dir'). '/public/uploads/dishes/', $newFilename
+                );
+                $dish->setPictureUrl($newFilename);
+            } catch (FileException $e) {
+                return new JsonResponse(['success' => false, 'message' => 'Erreur lors du téléchargement de l\'image'], 500);
+            }
+        }
+
+        // Sauvegarde en base de données
+        $entityManager->flush();
+
+        // Retour des données mises à jour
+        return new JsonResponse([
+            'success' => true,
+            'message' => 'Plat modifié avec succès',
+            'dish' => [
+                'id' => $dish->getId(),
+                'title' => $dish->getTitle(),
+                'description' => $dish->getDescription(),
+                'price' => $dish->getPrice(),
+                'pictureUrl' => $dish->getPictureUrl()
+            ]
+        ]);
+    }
 }

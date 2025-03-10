@@ -155,91 +155,90 @@
                         </div>
                     </div>
 
-                    <!-- Formulaire de contact -->
                     <div class="p-8 lg:p-12">
                         <h3 class="text-2xl font-bold text-gray-900 mb-6">Envoyez-nous un message</h3>
 
-                        <form action="#" method="POST" class="space-y-6">
-                            <!-- Nom -->
-                            <div>
-                                <label for="nom" class="block text-sm font-medium text-gray-700">Nom</label>
-                                <div class="mt-1">
-                                    <input type="text" name="nom" id="nom" class="py-3 px-4 block w-full shadow-sm focus:ring-lime-500 focus:border-lime-500 border-gray-300 rounded-md" placeholder="Votre nom">
-                                </div>
-                            </div>
+                    {{ form_start(form, {'attr': {'class': 'space-y-6'}}) }}
+                    <!-- Nom -->
+                    <div>
+                        {{ form_label(form.name, 'Nom', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+                        <div class="mt-1">
+                            {{ form_widget(form.name, {
+                                'attr': {
+                                    'class': 'py-3 px-4 block w-full shadow-sm focus:ring-lime-500 focus:border-lime-500 border-gray-300 rounded-md',
+                                    'placeholder': 'Votre nom'
+                                }
+                            }) }}
+                        </div>
+                        {{ form_errors(form.name, {'attr': {'class': 'text-red-500 text-sm mt-1'}}) }}
+                    </div>
 
-                            <!-- Email -->
-                            <div>
-                                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                                <div class="mt-1">
-                                    <input type="email" name="email" id="email" autocomplete="email" class="py-3 px-4 block w-full shadow-sm focus:ring-lime-500 focus:border-lime-500 border-gray-300 rounded-md" placeholder="votre.email@exemple.com">
-                                </div>
-                            </div>
+                    <!-- Email -->
+                    <div>
+                        {{ form_label(form.email, 'Email', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+                        <div class="mt-1">
+                            {{ form_widget(form.email, {
+                                'attr': {
+                                    'class': 'py-3 px-4 block w-full shadow-sm focus:ring-lime-500 focus:border-lime-500 border-gray-300 rounded-md',
+                                    'placeholder': 'votre.email@exemple.com'
+                                }
+                            }) }}
+                        </div>
+                        {{ form_errors(form.email, {'attr': {'class': 'text-red-500 text-sm mt-1'}}) }}
+                    </div>
 
-                            <!-- Téléphone -->
-                            <div>
-                                <label for="telephone" class="block text-sm font-medium text-gray-700">Téléphone</label>
-                                <div class="mt-1">
-                                    <input type="tel" name="telephone" id="telephone" autocomplete="tel" class="py-3 px-4 block w-full shadow-sm focus:ring-lime-500 focus:border-lime-500 border-gray-300 rounded-md" placeholder="06 XX XX XX XX">
-                                </div>
-                            </div>
+                    <!-- Téléphone -->
+                    <div>
+                        {{ form_label(form.phone, 'Téléphone', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+                        <div class="mt-1">
+                            {{ form_widget(form.phone, {
+                                'attr': {
+                                    'class': 'py-3 px-4 block w-full shadow-sm focus:ring-lime-500 focus:border-lime-500 border-gray-300 rounded-md',
+                                    'placeholder': '06 XX XX XX XX'
+                                }
+                            }) }}
+                        </div>
+                        {{ form_errors(form.phone, {'attr': {'class': 'text-red-500 text-sm mt-1'}}) }}
+                    </div>
 
-                            <!-- Sujet -->
-                            <div>
-                                <label for="sujet" class="block text-sm font-medium text-gray-700">Sujet</label>
-                                <div class="mt-1">
-                                    <select id="sujet" name="sujet" class="py-3 px-4 block w-full shadow-sm focus:ring-lime-500 focus:border-lime-500 border-gray-300 rounded-md">
-                                        <option value="">Sélectionnez un sujet</option>
-                                        <option value="reservation">Réservation pour événement</option>
-                                        <option value="information">Demande d'information</option>
-                                        <option value="suggestion">Suggestion</option>
-                                        <option value="reclamation">Réclamation</option>
-                                        <option value="autre">Autre</option>
-                                    </select>
-                                </div>
-                            </div>
+                    <!-- Sujet -->
+                    <div>
+                        {{ form_label(form.subject, 'Sujet', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+                        <div class="mt-1">
+                            {{ form_widget(form.subject, {
+                                'attr': {
+                                    'class': 'py-3 px-4 block w-full shadow-sm focus:ring-lime-500 focus:border-lime-500 border-gray-300 rounded-md'
+                                }
+                            }) }}
+                        </div>
+                        {{ form_errors(form.subject, {'attr': {'class': 'text-red-500 text-sm mt-1'}}) }}
+                    </div>
 
-                            <!-- Message -->
-                            <div>
-                                <label for="message" class="block text-sm font-medium text-gray-700">Message</label>
-                                <div class="mt-1">
-                                    <textarea id="message" name="message" rows="6" class="py-3 px-4 block w-full shadow-sm focus:ring-lime-500 focus:border-lime-500 border-gray-300 rounded-md" placeholder="Votre message..."></textarea>
-                                </div>
-                            </div>
+                    <!-- Message -->
+                    <div>
+                        {{ form_label(form.message, 'Message', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+                        <div class="mt-1">
+                            {{ form_widget(form.message, {
+                                'attr': {
+                                    'class': 'py-3 px-4 block w-full shadow-sm focus:ring-lime-500 focus:border-lime-500 border-gray-300 rounded-md',
+                                    'rows': 6,
+                                    'placeholder': 'Votre message...'
+                                }
+                            }) }}
+                        </div>
+                        {{ form_errors(form.message, {'attr': {'class': 'text-red-500 text-sm mt-1'}}) }}
+                    </div>
 
-                            <!-- Cases à cocher pour préférences -->
-                            <div class="space-y-4">
-                                <p class="text-sm font-medium text-gray-700">Je souhaite être informé(e)</p>
-                                <div class="flex items-start">
-                                    <div class="flex items-center h-5">
-                                        <input id="newsletter" name="newsletter" type="checkbox" class="focus:ring-lime-500 h-4 w-4 text-lime-600 border-gray-300 rounded">
-                                    </div>
-                                    <div class="ml-3 text-sm">
-                                        <label for="newsletter" class="font-medium text-gray-700">Newsletter</label>
-                                        <p class="text-gray-500">Recevez nos actualités et promotions.</p>
-                                    </div>
-                                </div>
-                                <div class="flex items-start">
-                                    <div class="flex items-center h-5">
-                                        <input id="emplacement" name="emplacement" type="checkbox" class="focus:ring-lime-500 h-4 w-4 text-lime-600 border-gray-300 rounded">
-                                    </div>
-                                    <div class="ml-3 text-sm">
-                                        <label for="emplacement" class="font-medium text-gray-700">Emplacements</label>
-                                        <p class="text-gray-500">Recevez notre calendrier de passage.</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Bouton Envoyer -->
-                            <div>
-                                <button type="submit" class="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-lime-600 hover:bg-lime-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500 transition">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                                        <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
-                                    </svg>
-                                    Envoyer
-                                </button>
-                            </div>
-                        </form>
+                    <!-- Bouton Envoyer -->
+                    <div>
+                        <button type="submit" class="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-lime-600 hover:bg-lime-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500 transition">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
+                            </svg>
+                            Envoyer
+                        </button>
+                    </div>
+                    {{ form_end(form) }}
 
                         <!-- Message de confiance -->
                         <div class="mt-8 flex items-center text-sm text-gray-500">

@@ -1,0 +1,153 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des messages{% endblock %}
+
+{% block body %}
+    <section class="py-16 sm:py-24 bg-gradient-to-br from-amber-50 to-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- En-tête de la page -->
+            <div class="text-center mb-10">
+                <h1 class="text-4xl font-extrabold text-gray-900 sm:text-5xl sm:tracking-tight">
+                    Gestion des Messages
+                </h1>
+                <p class="max-w-xl mt-5 mx-auto text-xl text-gray-500">
+                    Liste des messages reçus de nos clients
+                </p>
+            </div>
+
+            {% if contacts is empty %}
+                <div class="bg-white rounded-lg shadow-md p-8 text-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24 mx-auto text-gray-300 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                    </svg>
+                    <h2 class="text-2xl font-bold text-gray-700">Aucun message</h2>
+                    <p class="text-gray-500 mt-2">Vous n'avez pas encore reçu de messages.</p>
+                </div>
+            {% else %}
+                <div class="grid grid-cols-1 gap-6 mb-8 md:grid-cols-2 lg:grid-cols-3">
+                    {% for contact in contacts %}
+                        <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-300" data-id="{{ contact.id }}">
+                            <div class="{% if contact.subject == 'reclamation' %}bg-red-600{% elseif contact.subject == 'reservation' %}bg-blue-600{% elseif contact.subject == 'information' %}bg-yellow-600{% else %}bg-lime-600{% endif %} py-4 px-6">
+                                <div class="flex justify-between items-center">
+                                    <h2 class="text-lg font-bold text-white truncate">
+                                        {{ contact.name }}
+                                    </h2>
+                                    <span class="text-xs text-white bg-white/20 px-2 py-1 rounded-full">
+                                    {% if contact.subject == 'reclamation' %}
+                                        Réclamation
+                                    {% elseif contact.subject == 'reservation' %}
+                                        Réservation
+                                    {% elseif contact.subject == 'information' %}
+                                        Information
+                                    {% elseif contact.subject == 'suggestion' %}
+                                        Suggestion
+                                    {% else %}
+                                        Autre
+                                    {% endif %}
+                                </span>
+                                </div>
+                            </div>
+
+                            <div class="p-6">
+                                <div class="mb-4">
+                                    <div class="flex items-center mb-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                        </svg>
+                                        <span class="text-gray-700">{{ contact.email }}</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                                        </svg>
+                                        <span class="text-gray-700">{{ contact.phone }}</span>
+                                    </div>
+                                </div>
+
+                                <div class="border-t border-gray-200 pt-4">
+                                    <h3 class="font-medium text-gray-900 mb-2">Message:</h3>
+                                    <p class="text-gray-600 text-sm overflow-hidden line-clamp-3">{{ contact.message }}</p>
+
+                                    <!-- Afficher plus / moins -->
+                                    <button class="text-lime-600 hover:text-lime-500 text-sm mt-2 show-more" data-message-id="{{ contact.id }}">
+                                        Afficher plus
+                                    </button>
+                                    <div class="hidden full-message" id="message-{{ contact.id }}">
+                                        <p class="text-gray-600 text-sm mt-2">{{ contact.message }}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-gray-50 px-6 py-4 border-t border-gray-200">
+                                <div class="flex justify-between items-center">
+                                    <form action="{{ path('app_dashboard_message_delete', {id: contact.id}) }}" method="POST" onsubmit="handleSubmite({{ contact.id }})">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ contact.id) }}">
+                                        <button type="submit" class="text-red-600 hover:text-red-700 flex items-center text-sm font-medium">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                            </svg>
+                                            Supprimer
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Pagination -->
+                <div class="flex justify-center mt-8">
+                    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                        <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                            <span class="sr-only">Précédent</span>
+                            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                            </svg>
+                        </a>
+                        <a href="#" aria-current="page" class="z-10 bg-lime-50 border-lime-500 text-lime-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                            1
+                        </a>
+                        <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                            2
+                        </a>
+                        <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                            3
+                        </a>
+                        <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                            <span class="sr-only">Suivant</span>
+                            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                            </svg>
+                        </a>
+                    </nav>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const showMoreButtons = document.querySelectorAll('.show-more');
+
+            showMoreButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const messageId = this.getAttribute('data-message-id');
+                    const fullMessage = document.getElementById('message-' + messageId);
+
+                    if (fullMessage.classList.contains('hidden')) {
+                        fullMessage.classList.remove('hidden');
+                        this.textContent = 'Afficher moins';
+                    } else {
+                        fullMessage.classList.add('hidden');
+                        this.textContent = 'Afficher plus';
+                    }
+                });
+            });
+        });
+
+        function handleSubmite(id)
+        {
+            document.querySelector(`[data-id='${id}']`).remove();
+        }
+    </script>
+{% endblock %}

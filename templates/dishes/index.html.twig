@@ -18,11 +18,11 @@
             <!-- Liste des plats -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {% for dish in menu|default([
-                    {id: 1, name: 'Burger Classic', description: 'Bœuf, cheddar, salade, tomate, oignon rouge, sauce maison', price: 8.50, image: '/api/placeholder/300/200'},
-                    {id: 2, name: 'Burger Veggie', description: 'Steak de légumes, avocat, roquette, tomate séchée, sauce yaourt aux herbes', price: 9.00, image: '/api/placeholder/300/200'},
-                    {id: 3, name: 'Frites Maison', description: 'Pommes de terre fraîches, sel de mer, herbes de Provence', price: 3.50, image: '/api/placeholder/300/200'},
-                    {id: 4, name: 'Brownie', description: 'Chocolat noir, noix, servi tiède', price: 4.00, image: '/api/placeholder/300/200'},
-                    {id: 5, name: 'Limonade Artisanale', description: 'Citrons frais, menthe, sucre de canne', price: 3.00, image: '/api/placeholder/300/200'}
+                    {id: 1, title: 'Burger Classic', description: 'Bœuf, cheddar, salade, tomate, oignon rouge, sauce maison', price: 8.50, pictureUrl: '/api/placeholder/300/200'},
+                    {id: 2, title: 'Burger Veggie', description: 'Steak de légumes, avocat, roquette, tomate séchée, sauce yaourt aux herbes', price: 9.00, pictureUrl: '/api/placeholder/300/200'},
+                    {id: 3, title: 'Frites Maison', description: 'Pommes de terre fraîches, sel de mer, herbes de Provence', price: 3.50, pictureUrl: '/api/placeholder/300/200'},
+                    {id: 4, title: 'Brownie', description: 'Chocolat noir, noix, servi tiède', price: 4.00, pictureUrl: '/api/placeholder/300/200'},
+                    {id: 5, title: 'Limonade Artisanale', description: 'Citrons frais, menthe, sucre de canne', price: 3.00, pictureUrl: '/api/placeholder/300/200'}
                 ]) %}
                     <div class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow">
                         <img src="{{ asset('uploads/dishes/' ~ dish.pictureUrl) }}" alt="{{ dish.title }}" class="w-full h-64 object-cover">
@@ -32,8 +32,7 @@
                                 <span class="bg-lime-100 text-lime-800 font-bold px-2 py-1 rounded-full">{{ dish.price|number_format(2, ',', ' ') }} €</span>
                             </div>
                             <p class="text-gray-600 mt-2">{{ dish.description }}</p>
-                        </div>
-                    </div>
+                            <p class="pt-2"><span class="text-lime-700">Mis à jour le :</span> {{ dish.createdAt|date('d-m-Y', 'Europe/Paris') |default('Pas de date disponible') }}</p>                    </div>
                 {% endfor %}
             </div>
 

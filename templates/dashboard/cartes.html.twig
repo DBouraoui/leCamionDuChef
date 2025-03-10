@@ -108,13 +108,14 @@
                                                     <div class="text-sm font-bold text-lime-600">{{ dish.price|number_format(2, ',', ' ') }} €</div>
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-center">
-                                                    <a href="" class="inline-flex items-center px-3 py-1 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 mr-2">
+                                                    <a onclick="openEditModal({{ dish.id }})"
+                                                       class="inline-flex items-center px-3 py-1 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 mr-2">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                                         </svg>
                                                         Modifier
                                                     </a>
-                                                    <a href=""
+                                                    <a
                                                        class="inline-flex items-center px-3 py-1 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                                                        onclick="handleDelete(this)" data-id="{{ dish.id }}">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -143,29 +144,245 @@
                 </div>
             </div>
         </div>
+
+        <!-- Modal d'édition -->
+        <div id="editModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center hidden z-50">
+            <div class="bg-white rounded-lg shadow-xl w-full max-w-md mx-4">
+                <div class="bg-lime-500 text-white p-4 rounded-t-lg flex justify-between items-center">
+                    <h3 class="text-xl font-bold">Modifier un plat</h3>
+                    <button type="button" onclick="closeEditModal()" class="text-white hover:text-gray-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="p-6">
+                    <form id="editForm" enctype="multipart/form-data">
+                        <input type="hidden" id="edit_id" name="id">
+
+                        <div class="mb-4">
+                            <label for="edit_title" class="block text-gray-700 text-sm font-bold mb-2">Nom du plat</label>
+                            <input type="text" id="edit_title" name="title" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-lime-500 focus:border-lime-500">
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="edit_description" class="block text-gray-700 text-sm font-bold mb-2">Description</label>
+                            <textarea id="edit_description" name="description" rows="4" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-lime-500 focus:border-lime-500"></textarea>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="edit_price" class="block text-gray-700 text-sm font-bold mb-2">Prix</label>
+                            <input type="number" id="edit_price" name="price" step="0.01" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-lime-500 focus:border-lime-500">
+                        </div>
+
+                        <div class="mb-4">
+                            <div class="flex items-center space-x-4 mb-2">
+                                <div id="currentImageContainer" class="flex-shrink-0">
+                                    <img id="currentImage" src="" alt="Image actuelle" class="h-16 w-16 object-cover rounded-md border-2 border-gray-200">
+                                </div>
+                                <div class="flex-grow">
+                                    <p class="text-sm text-gray-600">Image actuelle</p>
+                                </div>
+                            </div>
+                            <label for="edit_imageFile" class="block text-gray-700 text-sm font-bold mb-2">Nouvelle image (optionnel)</label>
+                            <input type="file" id="edit_imageFile" name="imageFile" accept="image/*" class="block w-full text-gray-700 border border-gray-300 rounded py-2 px-3 focus:outline-none focus:ring-2 focus:ring-lime-500 focus:border-lime-500">
+                            <p class="text-gray-500 text-xs mt-1">Laissez vide pour conserver l'image actuelle</p>
+                        </div>
+
+                        <div class="flex justify-end space-x-2">
+                            <button type="button" onclick="closeEditModal()" class="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+                                Annuler
+                            </button>
+                            <button type="button" onclick="submitEditForm()" class="px-4 py-2 bg-lime-500 text-white rounded hover:bg-lime-600 focus:outline-none focus:ring-2 focus:ring-lime-500 focus:ring-offset-2">
+                                Enregistrer
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
     </section>
 
     <script defer>
-        function handleDelete(dishesId)
-        {
-            fetch(`/dashboard/carte/delete/${dishesId.dataset.id}`, {
+        // Fonction pour ajouter des messages flash dynamiquement
+        function addFlashMessage(type, message) {
+            // Sélectionner le conteneur où les alertes doivent apparaître
+            const container = document.querySelector('.card-body .p-6, .p-6');
+
+            // Création de l'élément d'alerte
+            const alertClass = type === 'success' ? 'bg-green-100 text-green-700' :
+                type === 'error' ? 'bg-red-100 text-red-700' :
+                    'bg-blue-100 text-blue-700';
+
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `mb-4 p-4 rounded-lg ${alertClass}`;
+            alertDiv.textContent = message;
+
+            // Insertion au début du conteneur
+            container.insertBefore(alertDiv, container.firstChild);
+
+            // Auto-suppression après 3 secondes
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 3000);
+        }
+
+        // Fonction pour supprimer un plat - inchangée puisqu'elle fonctionne déjà
+        function handleDelete(element) {
+            if (!confirm('Êtes-vous sûr de vouloir supprimer ce plat ?')) {
+                return;
+            }
+
+            const dishId = element.dataset.id;
+
+            fetch(`/dashboard/carte/delete/${dishId}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
                     'X-Requested-With': 'XMLHttpRequest'
                 }
             })
-                .then((request) =>{
-                    if  (request.status === 200) {
-                        document.querySelector(`[data-id="${dishesId.dataset.id}"]`).remove();
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erreur serveur: ' + response.status);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Supprimer la ligne du tableau
+                    const row = document.querySelector(`tr[data-id="${dishId}"]`);
+                    if (row) {
+                        row.remove();
+                        // Ajouter un feedback visuel
+                        addFlashMessage('success', 'Plat supprimé avec succès');
+
+                        // Mettre à jour le compteur de plats
+                        updateDishCounter();
                     }
                 })
-                .catch(err =>{
-                    if (err.status === 500) {
-                        console.log("Erreur de suppression")
-                    }
-                })
+                .catch(error => {
+                    console.error("Erreur lors de la suppression:", error);
+                    // Afficher un message d'erreur à l'utilisateur
+                    addFlashMessage('error', 'Erreur lors de la suppression du plat');
+                });
         }
+
+        // Fonction pour mettre à jour le compteur de plats
+        function updateDishCounter() {
+            const rows = document.querySelectorAll('tbody tr');
+            const counter = document.querySelector('.bg-white.text-lime-700');
+            if (counter) {
+                counter.textContent = `${rows.length} plat(s)`;
+            }
+
+            // Afficher ou masquer le message "Aucun plat"
+            const tableContainer = document.querySelector('.overflow-x-auto');
+            const emptyMessage = document.querySelector('.bg-blue-50.border-l-4');
+
+            if (rows.length === 0) {
+                if (tableContainer) tableContainer.style.display = 'none';
+                if (emptyMessage) emptyMessage.style.display = 'block';
+            }
+        }
+
+        // Fonctions pour le modal d'édition
+        function openEditModal(dishId) {
+            // Récupérer les données du plat
+            fetch(`/dashboard/carte/get/${dishId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erreur serveur: ' + response.status);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Remplir le formulaire avec les données
+                    document.getElementById('edit_id').value = data.id;
+                    document.getElementById('edit_title').value = data.title;
+                    document.getElementById('edit_description').value = data.description;
+                    document.getElementById('edit_price').value = data.price;
+                    document.getElementById('currentImage').src = `/uploads/dishes/${data.pictureUrl}`;
+
+                    // Afficher le modal
+                    document.getElementById('editModal').classList.remove('hidden');
+                })
+                .catch(error => {
+                    console.error("Erreur lors de la récupération des données:", error);
+                    addFlashMessage('error', 'Erreur lors de la récupération des données du plat');
+                });
+        }
+
+        function closeEditModal() {
+            document.getElementById('editModal').classList.add('hidden');
+            document.getElementById('editForm').reset();
+        }
+
+        function submitEditForm() {
+            // Correction : value est une propriété, pas une méthode
+            const dishId = document.getElementById('edit_id').value;
+            const formData = new FormData(document.getElementById('editForm'));
+
+            fetch(`/dashboard/carte/update/${dishId}`, {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erreur serveur: ' + response.status);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Fermer le modal
+                    closeEditModal();
+
+                    // Mettre à jour la ligne du tableau avec les nouvelles données
+                    const row = document.querySelector(`tr[data-id="${dishId}"]`);
+                    if (row) {
+                        // Mise à jour du titre
+                        row.querySelector('td:nth-child(2) div').textContent = data.dish.title;
+
+                        // Mise à jour de la description
+                        const description = data.dish.description.length > 50
+                            ? data.dish.description.slice(0, 50) + '...'
+                            : data.dish.description;
+                        row.querySelector('td:nth-child(3) div').textContent = description;
+
+                        // Mise à jour du prix
+                        row.querySelector('td:nth-child(4) div').textContent = parseFloat(data.dish.price).toLocaleString('fr-FR', {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                        }) + ' €';
+
+                        // Mise à jour de l'image si une nouvelle a été fournie
+                        if (data.dish.pictureUrl) {
+                            const timestamp = new Date().getTime(); // Pour éviter le cache du navigateur
+                            row.querySelector('td:nth-child(1) img').src = `/uploads/dishes/${data.dish.pictureUrl}?t=${timestamp}`;
+                        }
+                    }
+
+                    // Afficher un message de succès
+                    addFlashMessage('success', 'Plat modifié avec succès');
+                })
+                .catch(error => {
+                    console.error("Erreur lors de la modification:", error);
+                    addFlashMessage('error', 'Erreur lors de la modification du plat');
+                });
+        }
+
+        // Écouter les touches du clavier pour fermer le modal avec Echap
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape" && !document.getElementById('editModal').classList.contains('hidden')) {
+                closeEditModal();
+            }
+        });
     </script>
 
 {% endblock %}

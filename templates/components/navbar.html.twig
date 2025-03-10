@@ -16,6 +16,9 @@
                     <a href="{{ path('app_contact') }}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50 transition">Nous contacter</a>
                     <a href="{{ path('app_home') }}#notre-carte" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50 transition">Notre carte</a>
                     <a href="{{ path('app_home') }}#notre-histoire" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50 transition">Notre histoire</a>
+                    {% if app.user %}
+                        <a href="{{ path('app_dashboard') }}">Panel d'administration</a>
+                    {% endif %}
                 </div>
             </div>
 

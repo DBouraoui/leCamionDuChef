@@ -28,7 +28,9 @@
                 <a href="{{ path('app_contact') }}" class="text-white hover:text-yellow-300 transition">Nous contacter</a>
                 <a href="{{ path('app_home') }}#notre-carte" class="text-white hover:text-yellow-300 transition">Notre carte</a>
                 <a href="{{ path('app_home') }}#notre-histoire" class="text-white hover:text-yellow-300 transition">Notre histoire</a>
-                <a href="{{ path('app_login') }}" class="text-white hover:text-yellow-300 transition">Connexion</a>
+                {% if not app.user %}
+                    <a href="{{ path('app_login') }}" class="text-white hover:text-yellow-300 transition">Connexion</a>
+                {% endif %}
             </div>
         </div>
 
