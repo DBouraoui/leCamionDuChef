@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Menu du chef - Food Truck Gourmand{% endblock %}
+{% block title %}Menu du chef{% endblock %}
 
 {% block body %}
     <section class="relative py-16 sm:py-24 bg-gradient-to-br from-lime-50 via-amber-50 to-white">
@@ -116,7 +116,7 @@
                         <p class="text-gray-700 mb-4 text-lg">
                             Consultez nos réseaux sociaux pour connaître nos emplacements du jour !
                         </p>
-                        <a href="#" class="inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-lg shadow-sm text-base font-medium text-white bg-lime-600 hover:bg-lime-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500 transition-colors duration-300">
+                        <a href="{{ path('app_find_us') }}" class="inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-lg shadow-sm text-base font-medium text-white bg-lime-600 hover:bg-lime-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500 transition-colors duration-300">
                             Voir notre calendrier
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
