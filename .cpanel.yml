@@ -1,0 +1,22 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/body2399/repositories/leCamionDuChef/
+    - /bin/cp -R assets $DEPLOYPATH
+    - /bin/cp -R bin $DEPLOYPATH
+    - /bin/cp -R config $DEPLOYPATH
+    - /bin/cp -R migrations $DEPLOYPATH
+    - /bin/cp -R public $DEPLOYPATH
+    - /bin/cp -R src $DEPLOYPATH
+    - /bin/cp -R templates $DEPLOYPATH
+    - /bin/cp -R translations $DEPLOYPATH
+    - /bin/cp -R vendor $DEPLOYPATH
+    - /bin/cp -R composer.json $DEPLOYPATH
+    - /bin/cp -R composer.lock $DEPLOYPATH
+    - /bin/cp -R symfony.lock $DEPLOYPATH
+    - /bin/cp -R .env $DEPLOYPATH
+    - /bin/cp -R .env.local $DEPLOYPATH
+    # Set permissions
+    - /bin/chmod 755 $DEPLOYPATH/bin/console
+    # Clear cache
+    - php $DEPLOYPATH/bin/console cache:clear --env=prod

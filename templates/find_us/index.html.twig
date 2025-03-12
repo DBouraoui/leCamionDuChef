@@ -1,0 +1,141 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nous retrouver !{% endblock %}
+
+{% block body %}
+    <section class="relative py-16 sm:py-24 bg-gradient-to-br from-lime-50 via-amber-50 to-white">
+        <div class="container mx-auto px-4 sm:px-6">
+            <!-- En-tête de section -->
+            <div class="text-center mb-16">
+                <h1 class="text-5xl font-bold text-lime-800 mb-4 font-display">Où nous retrouver ?</h1>
+                <p class="text-gray-600 mt-4 max-w-3xl mx-auto text-lg">Découvrez notre planning hebdomadaire et venez déguster nos spécialités près de chez vous !</p>
+                <div class="h-1 w-32 bg-lime-500 mx-auto mt-6 rounded-full"></div>
+            </div>
+
+            <!-- Légende -->
+            <div class="bg-white/80 backdrop-blur-sm rounded-lg shadow-md p-4 mb-8 flex flex-wrap justify-center gap-6 max-w-2xl mx-auto">
+                <div class="flex items-center">
+                    <div class="w-4 h-4 rounded-full bg-lime-500 mr-2"></div>
+                    <span class="text-sm text-gray-700">Service du midi</span>
+                </div>
+                <div class="flex items-center">
+                    <div class="w-4 h-4 rounded-full bg-indigo-500 mr-2"></div>
+                    <span class="text-sm text-gray-700">Service du soir</span>
+                </div>
+            </div>
+
+            <!-- Jours de la semaine -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                {% for day in schedule %}
+                    <div class="group relative bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                        <!-- Indicateur de service -->
+                        <div class="absolute top-0 left-0 w-full h-2
+                            {% if day.morningTime and day.eveningTime %}bg-amber-400
+                            {% elseif day.morningTime %}bg-lime-500
+                            {% elseif day.eveningTime %}bg-indigo-500
+                            {% else %}bg-gray-300{% endif %}">
+                        </div>
+
+                        <!-- Badge du jour -->
+                        <div class="absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-bold
+                            {% if 'now'|date('l')|trans == day.day %}bg-lime-500 text-white{% else %}bg-gray-100 text-gray-700{% endif %}">
+                            {% if 'now'|date('l')|trans == day.day %}Aujourd'hui{% else %}{{ day.day }}{% endif %}
+                        </div>
+
+                        <div class="p-6 pt-10">
+                            <!-- Jour de la semaine -->
+                            <div class="flex items-center justify-between mb-5">
+                                <h3 class="text-2xl font-bold text-lime-800">{{ day.day }}</h3>
+
+                                <!-- Date de mise à jour -->
+                                <div class="text-xs text-gray-500">
+                                    Mis à jour: {{ day.createdAt|date('d/m/Y') }}
+                                </div>
+                            </div>
+
+                            {% if day.morningTime or day.eveningTime %}
+                                {% if day.morningTime %}
+                                    <!-- Service du midi -->
+                                    <div class="mb-4">
+                                        <div class="flex items-start mb-2">
+                                            <div class="flex-shrink-0 mt-1 mr-2">
+                                                <div class="w-4 h-4 rounded-full bg-lime-500"></div>
+                                            </div>
+                                            <div>
+                                                <span class="inline-block bg-lime-100 text-lime-800 text-xs font-medium px-2 py-0.5 rounded mr-1">Midi</span>
+                                                <span class="text-gray-700">{{ day.morningTime }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-start ml-6">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-lime-600 mt-1 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                            </svg>
+                                            <p class="text-gray-700">{{ day.morningLocalisation }}</p>
+                                        </div>
+                                    </div>
+                                {% endif %}
+
+                                {% if day.eveningTime %}
+                                    <!-- Service du soir -->
+                                    <div class="mb-4">
+                                        <div class="flex items-start mb-2">
+                                            <div class="flex-shrink-0 mt-1 mr-2">
+                                                <div class="w-4 h-4 rounded-full bg-indigo-500"></div>
+                                            </div>
+                                            <div>
+                                                <span class="inline-block bg-indigo-100 text-indigo-800 text-xs font-medium px-2 py-0.5 rounded mr-1">Soir</span>
+                                                <span class="text-gray-700">{{ day.eveningTime }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-start ml-6">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-600 mt-1 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                            </svg>
+                                            <p class="text-gray-700">{{ day.eveningLocalisation }}</p>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% else %}
+                                <div class="flex items-center justify-center h-32 border-2 border-dashed border-gray-200 rounded-lg">
+                                    <p class="text-gray-500 text-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mx-auto text-gray-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+                                        </svg>
+                                        Food truck fermé ce jour
+                                    </p>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <!-- Notes -->
+            <div class="mt-10 max-w-4xl mx-auto bg-white rounded-lg shadow-md p-6 text-center">
+                <p class="text-gray-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block text-amber-500 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    Les emplacements peuvent être sujets à modification.
+                </p>
+            </div>
+
+            <!-- Demandes spéciales -->
+            <div class="mt-16 bg-gradient-to-r from-lime-50 to-amber-50 rounded-xl shadow-md p-8 text-center max-w-5xl mx-auto">
+                <h2 class="text-2xl font-bold text-lime-800 mb-4">Vous organisez un événement ?</h2>
+                <p class="text-gray-700 mb-6 max-w-2xl mx-auto">
+                    Notre food truck est disponible pour vos événements privés, mariages, fêtes d'entreprise,
+                    ou toute autre occasion spéciale !
+                </p>
+                <a href="{{ path('app_contact') }}" class="inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-lg shadow-sm text-base font-medium text-white bg-lime-600 hover:bg-lime-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500 transition-colors duration-300">
+                    Demander un devis
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+{% endblock %}
