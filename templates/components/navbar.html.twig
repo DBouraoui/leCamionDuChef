@@ -13,10 +13,10 @@
             <!-- Menu desktop -->
             <div class="hidden md:flex items-center">
                 <div class="ml-10 flex items-baseline space-x-4">
-                    <a href="{{ path('app_contact') }}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50 transition">Nous contacter</a>
-                    <a href="{{ path('app_dishes') }}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50 transition">Notre carte</a>
-                    <a href="{{ path('app_home') }}#notre-histoire" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50 transition">Notre histoire</a>
+                    <a href="{{ path('app_dishes') }}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50 transition">Vente à emporter</a>
+                    <a href="{{ path('app_evenementiel') }}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50 transition">Evenementiel</a>
                     <a href="{{ path('app_find_us') }}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50 transition">Nous trouver</a>
+                    <a href="{{ path('app_contact') }}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50 transition">Nous contacter</a>
                     {% if app.user %}
                         <a href="{{ path('app_dashboard') }}">Panel d'administration</a>
                     {% endif %}
@@ -44,8 +44,8 @@
     <div id="mobile-menu" class="hidden md:hidden">
         <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white">
             <a href="{{ path('app_contact') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50 transition">Nous contacter</a>
-            <a href="{{ path('app_dishes')}}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50 transition">Notre carte</a>
-            <a href="{{ path('app_home') }}#notre-histoire" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50 transition">Notre histoire</a>
+            <a href="{{ path('app_dishes')}}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50 transition">Vente à emporter</a>
+            <a href="{{ path('app_evenementiel') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50 transition">Evenementiel</a>
             <a href="{{ path('app_find_us') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50 transition">Nous trouver</a>
             {% if app.user %}
                 <a href="{{ path('app_dashboard') }}">Panel d'administration</a>

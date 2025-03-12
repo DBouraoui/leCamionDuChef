@@ -3,3 +3,14 @@
 *{
     scroll-behavior: smooth;
 }
+
+@theme {
+    --color-lime-300: #6F7456;
+    --color-lime-400: #6F7456;
+    --color-lime-500: #6F7456;
+    --color-lime-600: #6F7456;
+    --color-lime-700: #6F7456;
+    --color-lime-800: #6F7456;
+    --color-lime-900: #6F7456;
+    --color-beige: #F8F5F2
+}
