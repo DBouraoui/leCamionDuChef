@@ -16,6 +16,7 @@ deployment:
     - /bin/cp -R symfony.lock $DEPLOYPATH
     - /bin/cp -R .env $DEPLOYPATH
     - /bin/cp -R .env.local $DEPLOYPATH
+    - /bin/cp -R public/build $DEPLOYPATH/public/
     # Set permissions
     - /bin/chmod 755 $DEPLOYPATH/bin/console
     # Clear cache
